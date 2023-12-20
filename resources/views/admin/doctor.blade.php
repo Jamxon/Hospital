@@ -1,15 +1,15 @@
-@include('admin.head')
-<!-- partial:partials/_sidebar.html -->
-@include('admin.slidebar')
-<!-- partial -->
-@include('admin.navbar')
-<div class="container-fluid page-body-wrapper">
-    <!-- partial:partials/_navbar.html -->
+@extends('admin.main')
+
+@section('content')
+    @include('admin.slidebar')
     <!-- partial -->
-    @include('user.doctor')
-</div>
-<!-- page-body-wrapper ends -->
-</div>
-<!-- container-scroller -->
-<!-- plugins:js -->
-@include('admin.script')
+    @include('admin.navbar')
+    <div class="container-fluid page-body-wrapper">
+        <!-- partial:partials/_navbar.html -->
+        <!-- partial -->
+        @include('admin.doctor_show')
+
+    </div>
+    <!-- page-body-wrapper ends -->
+    </div>
+@endsection

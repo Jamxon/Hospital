@@ -11,7 +11,7 @@ class DoctorController extends Controller
      */
     public function index()
     {
-        $doctors = Doctor::paginate(5)->all();
+        $doctors = Doctor::all();
         return view('admin.doctor',compact('doctors'));
     }
 
@@ -48,7 +48,8 @@ class DoctorController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $doctor = Doctor::find($id);
+        return view('admin.show_doctor',compact('doctor'));
     }
 
     /**
@@ -56,22 +57,41 @@ class DoctorController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $doctor = Doctor::find($id);
+        return view('admin.edit_doctor',compact('doctor'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
+    public function update(Request $request, string $id){
+        $doctor = Doctor::find($id);
+        //unlink old doctor's image
+        $image_path = "images/".$doctor->image;
+        if(file_exists($image_path)){
+            unlink($image_path);
+        }
+
+        $image = $request->image;
+        $imageName = time().".".$image->getClientOriginalName();
+        $request->image->move('images',$imageName);
+        $doctor->image = $imageName;
+        $doctor->name = $request->name;
+        $doctor->phone = $request->phone;
+        $doctor->speciality = $request->speciality;
+        $doctor->room = $request->room_no;
+        $doctor->save();
+        return redirect()->back()->with('message','Doctor Updated Successfully');
+
+}
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
     {
-        //
+        $doctor = Doctor::find($id);
+        $doctor->delete();
+        return redirect()->back()->with('message','Doctor Deleted Successfully');
     }
 }
