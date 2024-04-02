@@ -18,6 +18,7 @@ use App\Http\Controllers\DoctorController;
 Route::get('/',[HomeController::class,'index']);
 
 Route::get('/home',[HomeController::class,'redirect'])->name('home')->middleware('auth','verified');
+
 Route::resource('doctor', DoctorController::class);
 Route::post('appointment',[HomeController::class,'appointment'])->name('appointment');
 Route::get('myappointment',[HomeController::class,'myappointment'])->name('myappointment');
